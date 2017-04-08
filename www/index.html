@@ -23,6 +23,8 @@
         
     <!-- Local copy of jsxGraph nightly build --> 
     <script src="lib/jsxgraphcore.js"></script>
+    //to converte user Text to javascript math
+    <script src="lib/mathjs.js"></script>
         
         
     <style>
@@ -240,9 +242,13 @@
             });
             
             function graphUserText(userText){
-                //get what the user typed in 
-                var userFunction = board.jc.snippet(userText, true, 'x', true);
-                console.log(userFunction);
+                //get what the user typed using jsxGraph
+                //var userFunction = board.jc.snippet(userText, true, 'x', true);
+                
+                //change user string to javascript math inside a function (javascript magic!)
+                var userTextjs = mathjs(userText, 'x');
+                var userFunction = function(x){ with(Math) return eval(userTextjs);};
+                
                 //graph it
                 var userGraph = board.create('functiongraph',[userFunction], {strokeWidth:2});
 
@@ -250,7 +256,7 @@
                 $.afui.loadContent("#graph");
                 $.afui.clearHistory();
 
-                $("#functionList").append("<div>"+userText+" <input type='button' onclick='' value='delete'> <input type='button' onclick='' value='edit'></div>");
+                $("#functionList").append("<div>"+userText+" <input type='button' onclick='' value='color'> <input type='button' onclick='' value='edit'> <input type='button' onclick='' value='delete'> </div>");
                 
             }
             
