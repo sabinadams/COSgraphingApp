@@ -26,8 +26,11 @@
         
         
     <style>
-        #main{
+        #graph{
             background: white;
+        }
+        #graphButton{
+            width:100%
         }
     
     </style>
@@ -53,15 +56,22 @@
         
         <div class="pages">
             
-            <div class="panel" id="main" data-title="Main" data-selected="true">
-                <!-- jsxGraph outside bootstrap container -->
+            <div class="panel" id="inputPage" data-title="Input" data-selected="true">
+                <br/>
+                <input type="text" id="userInput" placeholder="Enter Function" autofocus/>
+                <input type="button" id="graphButton" value="Graph It" onclick="" />
+                <br/>
+                <div id="functionList">
+                    <p>Function List</p>
+                </div>
+            </div>
+            
+            <div class="panel" id="graph" data-title="Graph">
+                <!-- jsxGraph container -->
                 <div id="box" class="jxgbox" style="width:500px; height:500px"></div>
             </div>
-            <div class="panel" id="page1" data-title="Input">
-                Function input functionality here.
-                <input type="text" id="userInput" placeholder="Enter Function" autofocus/>
-                Maybe some sample "one-click" functions below.
-            </div>
+            
+
             
             <div class="panel" id="page2" data-title="Algebra Notes">
                 
@@ -150,8 +160,8 @@
                 <div class="pages">
                     <div class="panel active" id="navPage1" data-title="Foobar">
                         <ul class="list">
-                            <li><a href="#main" onclick="$.afui.clearHistory()">Graph</a></li>
-                            <li><a href="#page1" onclick="$.afui.clearHistory()">Input </a></li>
+                            <li><a href="#inputPage" onclick="$.afui.clearHistory()">Input </a></li>
+                            <li><a href="#graph" onclick="$.afui.clearHistory()">Graph</a></li>
                             <li><a href="#page2" onclick="$.afui.clearHistory()">Algebra </a></li>
                             <li><a href="#page3" onclick="$.afui.clearHistory()">Trigonometry</a></li>
                             <li><a href="#page4" onclick="$.afui.clearHistory()">Calculus</a></li>
@@ -203,38 +213,55 @@
             });
 
             // resize to widow width.
-            board.resizeContainer($(window).width(), $("#main").height());
+            board.resizeContainer($(window).width(), $("#graph").height());
             
-            // create some objects for testing
-            board.create('point', [2, 2], {size:3});
-            board.create('line', [1, 2, 2]);
             
             //  resize to window 
             $(window).on('resize', function(){
-                    board.resizeContainer($(window).width(), $("#main").height());
+                    board.resizeContainer($(window).width(), $("#graph").height());
             });
             
             
             // try using jsxGraph to convert user input to javascript math
             $('#userInput').keypress(function(e){
                 if (e.which == 13) {
-                    //get what the user typed in 
-                    var userText = $(this).val();
-                    //convert the this to a javascript function
-                    var userFunction = board.jc.snippet(userText, true, 'x', true);
-                    console.log(userFunction);
-                    //graph it
-                    var userGraph = board.create('functiongraph',[userFunction]);
-                    //clear input and close the modal
+                    var userString = $(this).val();
+                    graphUserText(userString);
                     $(this).val('');
-                    $('#myModal').modal('toggle');
+                    
                     return false;
                 }
             });
+            $('#graphButton').click(function(e){
+                var userString = $('#userInput').val();
+                graphUserText(userString);
+                $('#userInput').val('');
+        
+            });
+            
+            function graphUserText(userText){
+                //get what the user typed in 
+                var userFunction = board.jc.snippet(userText, true, 'x', true);
+                console.log(userFunction);
+                //graph it
+                var userGraph = board.create('functiongraph',[userFunction], {strokeWidth:2});
+
+                //app framework methods .afui  docs: https://github.com/01org/appframework/tree/master/docs/af.ui
+                $.afui.loadContent("#graph");
+                $.afui.clearHistory();
+
+                $("#functionList").append("<div>"+userText+" <input type='button' onclick='' value='delete'> <input type='button' onclick='' value='edit'></div>");
+                
+            }
+            
+            
+
                 
 
 
         });
+        
+
       
         
     </script>
