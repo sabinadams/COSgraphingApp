@@ -8,8 +8,9 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8"/>
 
     <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
     <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
@@ -20,7 +21,14 @@
         
     <script src='cordova.js'></script>
         
+    <!-- Local copy of jsxGraph nightly build --> 
+    <script src="lib/jsxgraphcore.js"></script>
+        
+        
     <style>
+        #main{
+            background: white;
+        }
     
     </style>
 
@@ -29,7 +37,7 @@
 
 <body>
     <div id="splashscreen" class='ui-loader heavy'>
-        App Framework made at cos
+        Graphing Calculator SURGE at COS
         <br>
         <br>
         <span class='ui-icon ui-icon-loading spin'></span>
@@ -44,15 +52,94 @@
         </header>
         
         <div class="pages">
+            
             <div class="panel" id="main" data-title="Main" data-selected="true">
-                This is main page
+                <!-- jsxGraph outside bootstrap container -->
+                <div id="box" class="jxgbox" style="width:500px; height:500px"></div>
             </div>
-            <div class="panel" id="page1" data-title="Page 1">
-                This is Page 1
+            <div class="panel" id="page1" data-title="Input">
+                Function input functionality here.
+                <input type="text" id="userInput" placeholder="Enter Function" autofocus/>
+                Maybe some sample "one-click" functions below.
             </div>
-            <div class="panel" id="page2" data-title="Page 2">
-                This is Page 2
+            
+            <div class="panel" id="page2" data-title="Algebra Notes">
+                
+                <!-- OF COURSE, this needs clean-up *************************************************-->
+                <div class="post-body entry-content" id="post-body-5838943170704425893" itemprop="description articleBody">
+<b>Distributive Property</b><br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-IPwXCDq0Y5I/UuVh2bN1LpI/AAAAAAAAKfE/Vf2_li6dSuI/s1600/Distributive+Property.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-IPwXCDq0Y5I/UuVh2bN1LpI/AAAAAAAAKfE/Vf2_li6dSuI/s1600/Distributive+Property.PNG"></a></div>
+<b>Special Products </b>(Sum and Difference of Square and Cubes.)<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-PgE1hIZV4Xg/UuVh8DiZd6I/AAAAAAAAKfM/O8VbtlG_5dA/s1600/Sum+Difference+of+Squares.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-PgE1hIZV4Xg/UuVh8DiZd6I/AAAAAAAAKfM/O8VbtlG_5dA/s1600/Sum+Difference+of+Squares.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-53j22wgDmL4/UuVh-zsyBRI/AAAAAAAAKfU/5GjuoNcq22E/s1600/Sum+Difference+of+Cubes.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-53j22wgDmL4/UuVh-zsyBRI/AAAAAAAAKfU/5GjuoNcq22E/s1600/Sum+Difference+of+Cubes.PNG"></a></div>
+<b>Products</b><br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-B5f5yIyCACI/UuViDlIXlkI/AAAAAAAAKfc/LismOL_WJ5Y/s1600/products.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-B5f5yIyCACI/UuViDlIXlkI/AAAAAAAAKfc/LismOL_WJ5Y/s1600/products.PNG"></a></div>
+<b>Binomial Theorem</b><br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-V7Xw_QXSRLY/UuViTAx1ktI/AAAAAAAAKfs/1HU2nv73wg0/s1600/Binomial+Theorem.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-V7Xw_QXSRLY/UuViTAx1ktI/AAAAAAAAKfs/1HU2nv73wg0/s1600/Binomial+Theorem.PNG"></a></div>
+<b>Quadratic Formula</b><br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-OwxkW7xm4og/UuViZIi5W6I/AAAAAAAAKf0/3ZhQ3YnqGg4/s1600/Quadratic+Formula.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-OwxkW7xm4og/UuViZIi5W6I/AAAAAAAAKf0/3ZhQ3YnqGg4/s1600/Quadratic+Formula.PNG"></a></div>
+<b>Complex Numbers</b><br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-mlkWf6KJ4Qk/UuVidBaS-ZI/AAAAAAAAKf8/Ju_tXzRTbo8/s1600/Complex+Unit.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-mlkWf6KJ4Qk/UuVidBaS-ZI/AAAAAAAAKf8/Ju_tXzRTbo8/s1600/Complex+Unit.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-Y4bO0cfir4M/UuVigDZ8AFI/AAAAAAAAKgE/xehugwUEh2g/s1600/Complex+Operations.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-Y4bO0cfir4M/UuVigDZ8AFI/AAAAAAAAKgE/xehugwUEh2g/s1600/Complex+Operations.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: center;">
+<br></div>
+<div class="separator" style="clear: both; text-align: center;">
+[ <a href="http://openalgebra.com/" target="_blank">openAlgebra.com</a>&nbsp;] - Free online Algebra study guide.</div>
+<div class="separator" style="clear: both; text-align: center;">
+<br></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Rectangular Coordinate System</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-bKpxJDWVGaY/UuVmruLurMI/AAAAAAAAKgQ/MU8MAPM-51s/s1600/Rectangular+Coordinate+System.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-bKpxJDWVGaY/UuVmruLurMI/AAAAAAAAKgQ/MU8MAPM-51s/s1600/Rectangular+Coordinate+System.PNG" height="207" width="320"></a></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-nLmNEpV_T6A/UuVnNoGZ_QI/AAAAAAAAKgc/Imd4t_AcQ4Q/s1600/Distance+Figure.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-nLmNEpV_T6A/UuVnNoGZ_QI/AAAAAAAAKgc/Imd4t_AcQ4Q/s1600/Distance+Figure.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Distance Formula</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://1.bp.blogspot.com/-l6dVtSOanxU/UuVnVRo-RMI/AAAAAAAAKgk/TuE23o3YQug/s1600/Distance+Formula.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-l6dVtSOanxU/UuVnVRo-RMI/AAAAAAAAKgk/TuE23o3YQug/s1600/Distance+Formula.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Midpoint Formula</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://1.bp.blogspot.com/-Qva8Fa3Wl1o/UuVnX13E9SI/AAAAAAAAKgs/7L3jK6U_l_Q/s1600/Midpoint+Formula.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-Qva8Fa3Wl1o/UuVnX13E9SI/AAAAAAAAKgs/7L3jK6U_l_Q/s1600/Midpoint+Formula.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Slope Formula:</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-5xSwI1eHv6E/UyI3jssfANI/AAAAAAAAKrY/L0wbztuEfUY/s1600/slope01.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-5xSwI1eHv6E/UyI3jssfANI/AAAAAAAAKrY/L0wbztuEfUY/s1600/slope01.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Slope-Intercept Form of a Line:</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-o2ZBh8dTZb8/UyI3D2c8K5I/AAAAAAAAKrQ/lxXvRu6EWaY/s1600/line01.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-o2ZBh8dTZb8/UyI3D2c8K5I/AAAAAAAAKrQ/lxXvRu6EWaY/s1600/line01.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Point-Slope Form of a Line:</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-K99DzAh9LP0/UyI2-jvXB_I/AAAAAAAAKrI/aWvbTRvkVfg/s1600/line02.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-K99DzAh9LP0/UyI2-jvXB_I/AAAAAAAAKrI/aWvbTRvkVfg/s1600/line02.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Graphing:</b></div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-cjs4ad_aBdo/UyJGnwW4lhI/AAAAAAAAKuE/KSBoLCiiA_E/s1600/Graphing01.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-cjs4ad_aBdo/UyJGnwW4lhI/AAAAAAAAKuE/KSBoLCiiA_E/s1600/Graphing01.PNG"></a>&nbsp;<a href="http://1.bp.blogspot.com/-aFYFXxtk6YE/UyJGnwPbJ6I/AAAAAAAAKuA/P4Ef90clMtI/s1600/Graphing02.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-aFYFXxtk6YE/UyJGnwPbJ6I/AAAAAAAAKuA/P4Ef90clMtI/s1600/Graphing02.PNG"></a></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br></div>
+<div style="clear: both;"></div>
+</div>
+<!-- OF COURSE, this needs clean-up *************************************************-->
             </div>
+            
+            <div class="panel" id="page3" data-title="Trig Notes">
+                Trig notes go here.
+            </div>
+            
+            <div class="panel" id="page4" data-title="Calculus Notes">
+                Calculus notes go here.
+            </div>
+            
         </div>
 
         <nav id="left">
@@ -63,9 +150,11 @@
                 <div class="pages">
                     <div class="panel active" id="navPage1" data-title="Foobar">
                         <ul class="list">
-                            <li><a href="#main" onclick="$.afui.clearHistory()">Main Page</a></li>
-                            <li><a href="#page1" onclick="$.afui.clearHistory()">Page One </a></li>
-                            <li><a href="#page2" onclick="$.afui.clearHistory()">Page Two</a></li>
+                            <li><a href="#main" onclick="$.afui.clearHistory()">Graph</a></li>
+                            <li><a href="#page1" onclick="$.afui.clearHistory()">Input </a></li>
+                            <li><a href="#page2" onclick="$.afui.clearHistory()">Algebra </a></li>
+                            <li><a href="#page3" onclick="$.afui.clearHistory()">Trigonometry</a></li>
+                            <li><a href="#page4" onclick="$.afui.clearHistory()">Calculus</a></li>
                         </ul>
                     </div>
                 </div>
@@ -74,8 +163,80 @@
 
     </div>
     
-    <script>
+
     
+    
+    <script type="text/javascript">
+        
+        // Called when the page is ready and loaded
+        $(document).ready(function(){
+            
+            // for negatives on the font
+            JXG.Options.ticks.useUnicodeMinus = false;
+
+            // Initial graph board set-up
+            var board = JXG.JSXGraph.initBoard('box',{
+                
+                axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
+                grid: { strokeWidth: 0.75 },
+                showCopyright: false,
+                showNavigation: false,
+                keepaspectratio: true, 
+                zoom:
+                {
+                    enabled: true,
+                    factorX: 1.25,
+                    factorY: 1.25,
+                    wheel: false,
+                    needShift: false,
+                    min: 0.0001,
+                    //max: 10000.0,
+                    pinchHorizontal: true,
+                    pinchVertical: true,
+                    pinchSensitivity: 7
+                },
+                pan: 
+                {
+                    enabled: true,
+                    needTwoFingers: false
+                }
+            });
+
+            // resize to widow width.
+            board.resizeContainer($(window).width(), $("#main").height());
+            
+            // create some objects for testing
+            board.create('point', [2, 2], {size:3});
+            board.create('line', [1, 2, 2]);
+            
+            //  resize to window 
+            $(window).on('resize', function(){
+                    board.resizeContainer($(window).width(), $("#main").height());
+            });
+            
+            
+            // try using jsxGraph to convert user input to javascript math
+            $('#userInput').keypress(function(e){
+                if (e.which == 13) {
+                    //get what the user typed in 
+                    var userText = $(this).val();
+                    //convert the this to a javascript function
+                    var userFunction = board.jc.snippet(userText, true, 'x', true);
+                    console.log(userFunction);
+                    //graph it
+                    var userGraph = board.create('functiongraph',[userFunction]);
+                    //clear input and close the modal
+                    $(this).val('');
+                    $('#myModal').modal('toggle');
+                    return false;
+                }
+            });
+                
+
+
+        });
+      
+        
     </script>
 </body>
 
