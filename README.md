@@ -1,4 +1,12 @@
-Side Menu App
+COS Graphing App SURGE
+
+HERE is a start... 
+https://rawgit.com/johnRedden/COSgraphingApp/master/www/index.html#main
+
+
+
+
+Side Menu App Template in Intel XDK
 ==================
 This template can be used for simple app with side menu that can be opened to switch views, this template can be used for creating applications similar to Youtube* app or Gmail* app.
 
