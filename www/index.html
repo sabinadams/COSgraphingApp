@@ -23,7 +23,7 @@
         
     <!-- Local copy of jsxGraph nightly build --> 
     <script src="lib/jsxgraphcore.js"></script>
-    //to converte user Text to javascript math
+    <!-- to converte user Text to javascript math -->
     <script src="lib/mathjs.js"></script>
         
         
@@ -175,10 +175,16 @@
 
     </div>
     
-
+    <div id="colorModal" class="modal fade">
+        
+    </div>
     
     
     <script type="text/javascript">
+        // Variables
+        var functions=  [];
+        var tempID= 0;
+        var board=  null;
         
         // Called when the page is ready and loaded
         $(document).ready(function(){
@@ -187,7 +193,7 @@
             JXG.Options.ticks.useUnicodeMinus = false;
 
             // Initial graph board set-up
-            var board = JXG.JSXGraph.initBoard('box',{
+            board = JXG.JSXGraph.initBoard('box',{
                 
                 axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
                 grid: { strokeWidth: 0.75 },
@@ -238,7 +244,6 @@
                 var userString = $('#userInput').val();
                 graphUserText(userString);
                 $('#userInput').val('');
-        
             });
             
             function graphUserText(userText){
@@ -250,26 +255,52 @@
                 var userFunction = function(x){ with(Math) return eval(userTextjs);};
                 
                 //graph it
-                var userGraph = board.create('functiongraph',[userFunction], {strokeWidth:2});
-
+                var userGraph = board.create('functiongraph', [userFunction], {strokeWidth:2});
+                var funcID= tempID++;
+                
                 //app framework methods .afui  docs: https://github.com/01org/appframework/tree/master/docs/af.ui
                 $.afui.loadContent("#graph");
                 $.afui.clearHistory();
-
-                $("#functionList").append("<div>"+userText+" <input type='button' onclick='' value='color'> <input type='button' onclick='' value='edit'> <input type='button' onclick='' value='delete'> </div>");
                 
+                functions[funcID]=  userGraph;
+                
+                $("#functionList").append(
+                    "<div id='func_"+funcID+"'><span>"+userText+"</span>"+
+                    " <input type='button' onclick='colorFunction("+funcID+");' value='color'>"+
+                    " <input type='button' onclick='editFunction("+funcID+");' value='edit'>"+
+                    " <input type='button' onclick='deleteFunction("+funcID+");' value='delete'> </div>"
+                );
             }
-            
-            
-
-                
-
-
         });
+            
+        function colorFunction(funcID)  {
+            console.log(functions[funcID]);
+            console.log(funcID);
+            // Pop up a color menu here
+        }
         
-
-      
+        function editFunction(funcID) {
+            // Variables
+            var userText=   prompt("Function: "); // Replace this with something better
+            if(userText=== null || userText=== "")
+                return;
+            var userTextjs = mathjs(userText, 'x');
+            var userFunction = function(x){ with(Math) return eval(userTextjs);};
+            var userGraph = board.create('functiongraph', [userFunction], {strokeWidth:2});
+            
+            board.removeObject(functions[funcID]);
+            delete functions[funcID];
+            functions[funcID]=  userGraph;
+            $("#func_"+funcID+" span").html(userText);
+        }
         
+        function deleteFunction(funcID) {
+            if(window.confirm("Delete Function?")=== false) // Replace this with something better
+                return;
+            board.removeObject(functions[funcID]);
+            delete functions[funcID];
+            $("#func_"+funcID).remove();
+        }
     </script>
 </body>
 
