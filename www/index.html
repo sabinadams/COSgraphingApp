@@ -35,9 +35,27 @@
 			width:100%
 		}
 		
+		div.funcview {
+			padding: 8px;
+		}
+		
+		div.funcview span {
+			width: 40%;
+			display: inline-block;
+		}
+		div.funcview input {
+			width: 18%;
+			height: 100%;
+			display: inline-block;
+		}
+		
+		div.funcview:hover {
+			background-color: #e3e3e3;
+		}
+		
 		.color  {
-			width: 24px;
-			height: 24px;
+			width: 32px;
+			height: 32px;
 			margin: 0px 4px;
 			display: inline-block;
 			border-radius: 50%;
@@ -53,8 +71,8 @@
 		}
 		
 		.green {
-			/* #7cfc00 */
-			background-color: lawngreen;
+			/* #3cb371 */
+			background-color: mediumseagreen;
 		}
 		
 		.blue {
@@ -65,6 +83,16 @@
 		.purple	{
 			/* #800080 */
 			background-color: purple;
+		}
+		
+		.yellow	{
+			/* #daa520 */
+			background-color: goldenrod;
+		}
+		
+		.teal	{
+			/* #008080 */
+			background-color: teal;
 		}
 	
 	</style>
@@ -207,6 +235,7 @@
 
 	</div>
 	
+	<!-- TODO: Move this into a seperate file /-->
 	<script type="text/javascript">
 		// Variables
 		var functions=  []; // Array of functiongraphs. Used to reference them later
@@ -292,11 +321,13 @@
 				
 				functions[funcID]=  userGraph;
 				
+				// Funcview!
+				// TODO: Figure out how to do glyph icons without bootstrap.
 				$("#functionList").append(
-					"<div id='func_"+funcID+"'><span>"+userText+"</span>"+
-					" <input type='button' onclick='colorFunction("+funcID+");' value='Change Color'>"+
-					" <input type='button' onclick='editFunction("+funcID+");' value='Edit Function'>"+
-					" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete Function'> </div>"
+					"<div id='func_"+funcID+"' class='funcview'><span style='color:"+getDefaultColor()+";'>"+userText+"</span>"+
+					" <input type='button' onclick='colorFunction("+funcID+");' value='Color'>"+
+					" <input type='button' onclick='editFunction("+funcID+");' value='Edit'>"+
+					" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete'> </div>"
 				);
 			}
 		});
@@ -305,8 +336,12 @@
 		function getFunctionGraph(userFunction) {
 			return board.create("functiongraph", [userFunction], {
 			   strokeWidth: 2,
-			   strokeColor: "#4169e1" // This color is royalblue, but keep it at a hexcode to be able to decipher it!
+			   strokeColor: getDefaultColor() // This color is royalblue, but keep it at a hexcode to be able to decipher it!
 			});
+		}
+		
+		function getDefaultColor()	{
+			return "#4169e1";
 		}
 		
 		// Callback function for when the function's color is being changed
@@ -317,6 +352,7 @@
 			   message: getColorMessage(funcID),
 			   doneCallback:  function()  {
 				   functions[funcID].visProp.strokecolor=   $("#colorModal div .color.selected").css("background-color");
+				   $("#func_"+funcID+" span").css("color", rgbToHex(functions[funcID].visProp.strokecolor));
 				   board.fullUpdate();
 			   }
 			});
@@ -324,7 +360,8 @@
 		
 		// Converts a potential rgb(###, ###, ###) string into a hex #xxxxxx
 		function rgbToHex(rgb)	{
-			console.log(rgb);
+			if(rgb=== undefined)
+				return getDefaultColor();
 			if(!rgb.startsWith("rgb"))
 				return rgb;
 			
@@ -368,12 +405,16 @@
 			
 			// Red: Crimson or #dc143c
 			html+=  "<span class='color red"+((selColor=== "#dc143c") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
-			// Green: lawngreen or #7cfc00
-			html+=  "<span class='color green"+((selColor=== "#7cfc00") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			// Green: mediumseagreen or #3cb371
+			html+=  "<span class='color green"+((selColor=== "#3cb371") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
 			// Blue: royalblue or #4169e1
 			html+=  "<span class='color blue"+((selColor=== "#4169e1") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
 			// Purple: purple or #800080
 			html+=	"<span class='color purple"+((selColor=== "#800080") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			// Yellow: goldenrod or #daa520
+			html+=	"<span class='color yellow"+((selColor=== "#daa520") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			// Teal: teal or #008080
+			html+=	"<span class='color teal"+((selColor=== "#008080") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
 			
 			return html;
 		}
