@@ -4,81 +4,113 @@
 
 <head>
 
-    <title>COS graphing App</title>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta charset="utf-8"/>
+	<title>COS graphing App</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="utf-8"/>
 
-    <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
-    <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+	<link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
+	<link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
 
-    <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/fastclick.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
-        
-    <script src='cordova.js'></script>
-        
-    <!-- Local copy of jsxGraph nightly build --> 
-    <script src="lib/jsxgraphcore.js"></script>
-    <!-- to converte user Text to javascript math -->
-    <script src="lib/mathjs.js"></script>
-        
-        
-    <style>
-        #graph{
-            background: white;
-        }
-        #graphButton{
-            width:100%
-        }
-    
-    </style>
+	<script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="lib/fastclick.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+		
+	<script src='cordova.js'></script>
+		
+	<!-- Local copy of jsxGraph nightly build --> 
+	<script src="lib/jsxgraphcore.js"></script>
+	<!-- to converte user Text to javascript math -->
+	<script src="lib/mathjs.js"></script>
+		
+		
+	<style>
+		#graph{
+			background: white;
+		}
+		#graphButton{
+			width:100%
+		}
+		
+		.color  {
+			width: 24px;
+			height: 24px;
+			margin: 0px 4px;
+			display: inline-block;
+			border-radius: 50%;
+		}
+		
+		.color.selected {
+			border: black solid 2px;
+		}
+		
+		.red {
+			/* #dc143c */
+			background-color: crimson;
+		}
+		
+		.green {
+			/* #7cfc00 */
+			background-color: lawngreen;
+		}
+		
+		.blue {
+			/* #4169e1 */
+			background-color: royalblue;
+		}
+		
+		.purple	{
+			/* #800080 */
+			background-color: purple;
+		}
+	
+	</style>
 
 
 </head>
 
 <body>
-    <div id="splashscreen" class='ui-loader heavy'>
-        Graphing Calculator SURGE at COS
-        <br>
-        <br>
-        <span class='ui-icon ui-icon-loading spin'></span>
-        <h1>Starting app</h1>
-    </div>
+	<div id="splashscreen" class='ui-loader heavy'>
+		Graphing Calculator SURGE at COS
+		<br>
+		<br>
+		<span class='ui-icon ui-icon-loading spin'></span>
+		<h1>Starting app</h1>
+	</div>
 
-    <div class="view splitview">
-        
-        <header>
-            <a class="menuButton" data-left-menu="left" data-transition="cover" style="float:left"></a>
-            <h1>Title</h1>
-        </header>
-        
-        <div class="pages">
-            
-            <div class="panel" id="inputPage" data-title="Input" data-selected="true">
-                <br/>
-                <input type="text" id="userInput" placeholder="Enter Function" autofocus/>
-                <input type="button" id="graphButton" value="Graph It" onclick="" />
-                <br/>
-                <div id="functionList">
-                    <p>Function List</p>
-                </div>
-            </div>
-            
-            <div class="panel" id="graph" data-title="Graph">
-                <!-- jsxGraph container -->
-                <div id="box" class="jxgbox" style="width:500px; height:500px"></div>
-            </div>
-            
+	<div class="view splitview">
+		
+		<header>
+			<a class="menuButton" data-left-menu="left" data-transition="cover" style="float:left"></a>
+			<h1>Title</h1>
+		</header>
+		
+		<div class="pages">
+			
+			<div class="panel" id="inputPage" data-title="Input" data-selected="true">
+				<br/>
+				<input type="text" id="userInput" placeholder="Enter Function" autofocus/>
+				<input type="button" id="graphButton" value="Graph It" onclick="" />
+				<br/>
+				<div id="functionList">
+					<p>Function List</p>
+				</div>
+			</div>
+			
+			<div class="panel" id="graph" data-title="Graph">
+				<!-- jsxGraph container -->
+				<div id="box" class="jxgbox" style="width:500px; height:500px"></div>
+			</div>
+			
 
-            
-            <div class="panel" id="page2" data-title="Algebra Notes">
-                
-                <!-- OF COURSE, this needs clean-up *************************************************-->
-                <div class="post-body entry-content" id="post-body-5838943170704425893" itemprop="description articleBody">
+			
+			<div class="panel" id="page2" data-title="Algebra Notes">
+				
+				<!-- OF COURSE, this needs clean-up *************************************************-->
+				<div class="post-body entry-content" id="post-body-5838943170704425893" itemprop="description articleBody">
 <b>Distributive Property</b><br>
 <div class="separator" style="clear: both; text-align: center;">
 <a href="http://2.bp.blogspot.com/-IPwXCDq0Y5I/UuVh2bN1LpI/AAAAAAAAKfE/Vf2_li6dSuI/s1600/Distributive+Property.PNG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-IPwXCDq0Y5I/UuVh2bN1LpI/AAAAAAAAKfE/Vf2_li6dSuI/s1600/Distributive+Property.PNG"></a></div>
@@ -142,166 +174,258 @@
 <div style="clear: both;"></div>
 </div>
 <!-- OF COURSE, this needs clean-up *************************************************-->
-            </div>
-            
-            <div class="panel" id="page3" data-title="Trig Notes">
-                Trig notes go here.
-            </div>
-            
-            <div class="panel" id="page4" data-title="Calculus Notes">
-                Calculus notes go here.
-            </div>
-            
-        </div>
+			</div>
+			
+			<div class="panel" id="page3" data-title="Trig Notes">
+				Trig notes go here.
+			</div>
+			
+			<div class="panel" id="page4" data-title="Calculus Notes">
+				Calculus notes go here.
+			</div>
+			
+		</div>
 
-        <nav id="left">
-            <div class="view active">
-                <header>
-                    <h1>Left</h1>
-                </header>
-                <div class="pages">
-                    <div class="panel active" id="navPage1" data-title="Foobar">
-                        <ul class="list">
-                            <li><a href="#inputPage" onclick="$.afui.clearHistory()">Input </a></li>
-                            <li><a href="#graph" onclick="$.afui.clearHistory()">Graph</a></li>
-                            <li><a href="#page2" onclick="$.afui.clearHistory()">Algebra </a></li>
-                            <li><a href="#page3" onclick="$.afui.clearHistory()">Trigonometry</a></li>
-                            <li><a href="#page4" onclick="$.afui.clearHistory()">Calculus</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
+		<nav id="left">
+			<div class="view active">
+				<header>
+					<h1>Left</h1>
+				</header>
+				<div class="pages">
+					<div class="panel active" id="navPage1" data-title="Foobar">
+						<ul class="list">
+							<li><a href="#inputPage" onclick="$.afui.clearHistory()">Input </a></li>
+							<li><a href="#graph" onclick="$.afui.clearHistory()">Graph</a></li>
+							<li><a href="#page2" onclick="$.afui.clearHistory()">Algebra </a></li>
+							<li><a href="#page3" onclick="$.afui.clearHistory()">Trigonometry</a></li>
+							<li><a href="#page4" onclick="$.afui.clearHistory()">Calculus</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
 
-    </div>
-    
-    <div id="colorModal" class="modal fade">
-        
-    </div>
-    
-    
-    <script type="text/javascript">
-        // Variables
-        var functions=  [];
-        var tempID= 0;
-        var board=  null;
-        
-        // Called when the page is ready and loaded
-        $(document).ready(function(){
-            
-            // for negatives on the font
-            JXG.Options.ticks.useUnicodeMinus = false;
+	</div>
+	
+	<script type="text/javascript">
+		// Variables
+		var functions=  []; // Array of functiongraphs. Used to reference them later
+		var tempID= 0; // Used to identify each newly created functiongraph
+		var board=  null; // Make the board global
+		
+		// Called when the page is ready and loaded
+		$(document).ready(function(){
+			
+			// for negatives on the font
+			JXG.Options.ticks.useUnicodeMinus = false;
 
-            // Initial graph board set-up
-            board = JXG.JSXGraph.initBoard('box',{
-                
-                axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
-                grid: { strokeWidth: 0.75 },
-                showCopyright: false,
-                showNavigation: false,
-                keepaspectratio: true, 
-                zoom:
-                {
-                    enabled: true,
-                    factorX: 1.25,
-                    factorY: 1.25,
-                    wheel: false,
-                    needShift: false,
-                    min: 0.0001,
-                    //max: 10000.0,
-                    pinchHorizontal: true,
-                    pinchVertical: true,
-                    pinchSensitivity: 7
-                },
-                pan: 
-                {
-                    enabled: true,
-                    needTwoFingers: false
-                }
-            });
+			// Initial graph board set-up
+			board = JXG.JSXGraph.initBoard('box',{
+				
+				axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
+				grid: { strokeWidth: 0.75 },
+				showCopyright: false,
+				showNavigation: false,
+				keepaspectratio: true, 
+				zoom:
+				{
+					enabled: true,
+					factorX: 1.25,
+					factorY: 1.25,
+					wheel: false,
+					needShift: false,
+					min: 0.0001,
+					//max: 10000.0,
+					pinchHorizontal: true,
+					pinchVertical: true,
+					pinchSensitivity: 7
+				},
+				pan: 
+				{
+					enabled: true,
+					needTwoFingers: false
+				}
+			});
 
-            // resize to widow width.
-            board.resizeContainer($(window).width(), $("#graph").height());
-            
-            
-            //  resize to window 
-            $(window).on('resize', function(){
-                    board.resizeContainer($(window).width(), $("#graph").height());
-            });
-            
-            
-            // try using jsxGraph to convert user input to javascript math
-            $('#userInput').keypress(function(e){
-                if (e.which == 13) {
-                    var userString = $(this).val();
-                    graphUserText(userString);
-                    $(this).val('');
-                    
-                    return false;
-                }
-            });
-            $('#graphButton').click(function(e){
-                var userString = $('#userInput').val();
-                graphUserText(userString);
-                $('#userInput').val('');
-            });
-            
-            function graphUserText(userText){
-                //get what the user typed using jsxGraph
-                //var userFunction = board.jc.snippet(userText, true, 'x', true);
-                
-                //change user string to javascript math inside a function (javascript magic!)
-                var userTextjs = mathjs(userText, 'x');
-                var userFunction = function(x){ with(Math) return eval(userTextjs);};
-                
-                //graph it
-                var userGraph = board.create('functiongraph', [userFunction], {strokeWidth:2});
-                var funcID= tempID++;
-                
-                //app framework methods .afui  docs: https://github.com/01org/appframework/tree/master/docs/af.ui
-                $.afui.loadContent("#graph");
-                $.afui.clearHistory();
-                
-                functions[funcID]=  userGraph;
-                
-                $("#functionList").append(
-                    "<div id='func_"+funcID+"'><span>"+userText+"</span>"+
-                    " <input type='button' onclick='colorFunction("+funcID+");' value='color'>"+
-                    " <input type='button' onclick='editFunction("+funcID+");' value='edit'>"+
-                    " <input type='button' onclick='deleteFunction("+funcID+");' value='delete'> </div>"
-                );
-            }
-        });
-            
-        function colorFunction(funcID)  {
-            console.log(functions[funcID]);
-            console.log(funcID);
-            // Pop up a color menu here
-        }
-        
-        function editFunction(funcID) {
-            // Variables
-            var userText=   prompt("Function: "); // Replace this with something better
-            if(userText=== null || userText=== "")
-                return;
-            var userTextjs = mathjs(userText, 'x');
-            var userFunction = function(x){ with(Math) return eval(userTextjs);};
-            var userGraph = board.create('functiongraph', [userFunction], {strokeWidth:2});
-            
-            board.removeObject(functions[funcID]);
-            delete functions[funcID];
-            functions[funcID]=  userGraph;
-            $("#func_"+funcID+" span").html(userText);
-        }
-        
-        function deleteFunction(funcID) {
-            if(window.confirm("Delete Function?")=== false) // Replace this with something better
-                return;
-            board.removeObject(functions[funcID]);
-            delete functions[funcID];
-            $("#func_"+funcID).remove();
-        }
-    </script>
+			// resize to widow width.
+			board.resizeContainer($(window).width(), $("#graph").height());
+			
+			
+			//  resize to window 
+			$(window).on('resize', function(){
+					board.resizeContainer($(window).width(), $("#graph").height());
+			});
+			
+			
+			// try using jsxGraph to convert user input to javascript math
+			$('#userInput').keypress(function(e){
+				if (e.which == 13) {
+					var userString = $(this).val();
+					graphUserText(userString);
+					$(this).val('');
+					
+					return false;
+				}
+			});
+			// When the user clicks "Graph It"
+			$('#graphButton').click(function(e){
+				var userString = $('#userInput').val();
+				graphUserText(userString);
+				$('#userInput').val('');
+			});
+			
+			function graphUserText(userText){
+				//get what the user typed using jsxGraph
+				//var userFunction = board.jc.snippet(userText, true, 'x', true);
+				
+				//change user string to javascript math inside a function (javascript magic!)
+				var userTextjs = mathjs(userText, 'x');
+				var userFunction = function(x){ with(Math) return eval(userTextjs);};
+				
+				//graph it
+				var userGraph = getFunctionGraph(userFunction);
+				var funcID= tempID++;
+				
+				//app framework methods .afui  docs: https://github.com/01org/appframework/tree/master/docs/af.ui
+				$.afui.loadContent("#graph");
+				$.afui.clearHistory();
+				
+				functions[funcID]=  userGraph;
+				
+				$("#functionList").append(
+					"<div id='func_"+funcID+"'><span>"+userText+"</span>"+
+					" <input type='button' onclick='colorFunction("+funcID+");' value='Change Color'>"+
+					" <input type='button' onclick='editFunction("+funcID+");' value='Edit Function'>"+
+					" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete Function'> </div>"
+				);
+			}
+		});
+		
+		// Universal function for creating a function graph.
+		function getFunctionGraph(userFunction) {
+			return board.create("functiongraph", [userFunction], {
+			   strokeWidth: 2,
+			   strokeColor: "#4169e1" // This color is royalblue, but keep it at a hexcode to be able to decipher it!
+			});
+		}
+		
+		// Callback function for when the function's color is being changed
+		function colorFunction(funcID)  {
+			$.afui.popup({
+			   id:  "colorModal",
+			   title:   "Change Color of function: "+($("#func_"+funcID+" span").html()),
+			   message: getColorMessage(funcID),
+			   doneCallback:  function()  {
+				   functions[funcID].visProp.strokecolor=   $("#colorModal div .color.selected").css("background-color");
+				   board.fullUpdate();
+			   }
+			});
+		}
+		
+		// Converts a potential rgb(###, ###, ###) string into a hex #xxxxxx
+		function rgbToHex(rgb)	{
+			console.log(rgb);
+			if(!rgb.startsWith("rgb"))
+				return rgb;
+			
+			// Variables
+			var	splits=	(rgb.substring(rgb.indexOf('(')+1, rgb.indexOf(')'))).split(',');
+			var	hexcode=	"#";
+			var	temp;
+			
+			for(var i= 0; i< splits.length; i++)	{
+				temp=	Number(splits[i]);
+				if(temp< 16)
+					temp=	"0"+temp.toString(16);
+				else
+					temp=	temp.toString(16);
+				hexcode+=	temp;
+			}
+			
+			return hexcode;
+		}
+		
+		// Gets the content for the color modal. Mess with this for color stuff
+		function getColorMessage(funcID)    {
+			// Variables
+			var selColor=   rgbToHex(functions[funcID].visProp.strokecolor);
+			var html=	"";
+			
+			/*
+				Dear John and Cory,
+					As you may know I am not a designer. But I made this pretty
+					nicely. The system here is that you can assign a class a
+					background-color for the user to use. But when it comes out
+					from the graph, it comes out as rgb(###, ###, ###). The only
+					way I could get around with this is converting it to hex.
+					
+					tl;dr: In the styles assign a color. In here check using the
+					color's hexcode.
+					
+					signed,
+						Paul.
+			*/
+			
+			// Red: Crimson or #dc143c
+			html+=  "<span class='color red"+((selColor=== "#dc143c") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			// Green: lawngreen or #7cfc00
+			html+=  "<span class='color green"+((selColor=== "#7cfc00") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			// Blue: royalblue or #4169e1
+			html+=  "<span class='color blue"+((selColor=== "#4169e1") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			// Purple: purple or #800080
+			html+=	"<span class='color purple"+((selColor=== "#800080") ? " selected" : "")+"' onclick='selectColor(this);'></span>";
+			
+			return html;
+		}
+		
+		// Selects the color from the parent of the given span
+		function selectColor(span)  {
+			for(var i= 0; i< span.parentElement.children.length; i++)   {
+				span.parentElement.children[i].classList.remove("selected");
+			}
+			span.classList.add("selected");
+		}
+		
+		// Callback function for when the function is being edited
+		function editFunction(funcID) {
+			$.afui.popup({
+				id: "editModal",
+				// Ex: Change Function: cosx+sinx
+				title:   "Change Function: "+($("#func_"+funcID+" span").html()),
+				// Ex: value== cosx+sinx
+				// We can change this, but I thought edit as in change the current one
+				// TODO: Figure out how to focus onto the textbox
+				message: "<input type='text' value='"+$("#func_"+funcID+" span").html()+"' />",
+				doneCallback:    function()  {
+					// Variables
+					var  userText=   $("#editModal div input").val();
+					var userTextjs= mathjs(userText, 'x');
+					var userFunction=   function(x) {   with(Math) return eval(userTextjs); };
+					var userGraph=  getFunctionGraph(userFunction);
+					
+					board.removeObject(functions[funcID]);
+					delete functions[funcID]; // Not sure if this part is necessary. Deletes it from memory
+					functions[funcID]=  userGraph; // This was the only thing I can find that would could edit the function
+					$("#func_"+funcID+" span").html(userText);
+				}
+			});
+		}
+		
+		// Callback function for deleteing the functiongraph
+		function deleteFunction(funcID) {
+			// We can talk about ui sometime else. But this is what the xdk provided, so I'm using it. -- Paul
+			$.afui.popup({
+				id:  "deleteModal",
+				// Ex: Delete Function [cosx+sinx]?
+				title:   "Delete Function ["+($("#func_"+funcID+" span").html())+"]?",
+				doneCallback:    function()  {
+					board.removeObject(functions[funcID]);
+					delete functions[funcID]; // Not sure if this part is necessary. Deletes it from memory
+					$("#func_"+funcID).remove();
+				}
+			});
+		}
+	</script>
 </body>
 
 </html>
