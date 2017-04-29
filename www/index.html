@@ -241,7 +241,14 @@
 		var functions=  []; // Array of functiongraphs. Used to reference them later
 		var tempID= 0; // Used to identify each newly created functiongraph
 		var board=  null; // Make the board global
-		
+		(function() {
+			var	ev = new $.Event('style'),
+				orig = $.fn.css;
+			$.fn.css = function() {
+				$(this).trigger(ev);
+				return orig.apply(this, arguments);
+			}
+		})();
 		// Called when the page is ready and loaded
 		$(document).ready(function(){
 			
@@ -279,6 +286,16 @@
 			// resize to widow width.
 			board.resizeContainer($(window).width(), $("#graph").height());
 			
+			$("#inputPage").bind("style", function(args)	{
+				// This works?
+				if(args.currentTarget.classList.contains("active")=== false)	{
+					window.setTimeout(function(){
+						$("#graph").addClass("active");
+						// Change the opacity here for nicer viewing!
+						$("#inputPage").css("opacity", 0.9);
+					}, 500);
+				}
+			});
 			
 			//  resize to window 
 			$(window).on('resize', function(){
@@ -287,6 +304,12 @@
 			
 			
 			// try using jsxGraph to convert user input to javascript math
+			$("#userInput").keyup(function(args)	{
+				try	{
+					var userString = $(this).val();
+					graphUserTextLiveUpdate(userString);
+				}catch(e){}
+			});
 			$('#userInput').keypress(function(e){
 				if (e.which == 13) {
 					var userString = $(this).val();
@@ -308,7 +331,7 @@
 				//var userFunction = board.jc.snippet(userText, true, 'x', true);
 				
 				//change user string to javascript math inside a function (javascript magic!)
-				var userTextjs = mathjs(userText, 'x');
+				var userTextjs = mathjs(userText.toLowerCase(), 'x');
 				var userFunction = function(x){ with(Math) return eval(userTextjs);};
 				
 				//graph it
@@ -330,7 +353,24 @@
 					" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete'> </div>"
 				);
 			}
+			
+			function graphUserTextLiveUpdate(userText){
+				//get what the user typed using jsxGraph
+				//var userFunction = board.jc.snippet(userText, true, 'x', true);
+				
+				//change user string to javascript math inside a function (javascript magic!)
+				board.removeObject(tempGraph);
+				delete tempGraph; // Not sure if this part is necessary. Deletes it from memory
+				
+				var userTextjs = mathjs(userText.toLowerCase(), 'x');
+				var userFunction = function(x){ with(Math) return eval(userTextjs);};
+				var userGraph = getFunctionGraph(userFunction);
+				
+				tempGraph=  userGraph;
+			}
 		});
+		
+		var tempGraph;;
 		
 		// Universal function for creating a function graph.
 		function getFunctionGraph(userFunction) {
