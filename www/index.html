@@ -14,8 +14,6 @@
 
 	<link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
 	<link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
-
-<<<<<<< Updated upstream
 	<script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="lib/fastclick.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
@@ -26,8 +24,10 @@
 	<script src="lib/jsxgraphcore.js"></script>
 	<!-- to converte user Text to javascript math -->
 	<script src="lib/mathjs.js"></script>
+	<!-- To make derivative and other what-nots -->
+	<script src="lib/algebrite.min.js"></script>
     
-    <!-- Initial KaTex CDN (todo: local copy) --> 
+    <!-- KaTex, beautiful looking math. --> 
     <link rel="stylesheet" href="lib/katex/katex.min.css" >
     <script src="lib/katex/katex.min.js"></script>
 		
@@ -45,8 +45,7 @@
 		}
 		
 		div.funcview span {
-			width: 40%;
-			display: inline-block;
+			width: 18%;
 		}
 		div.funcview input {
 			width: 18%;
@@ -101,23 +100,6 @@
 		}
 	
 	</style>
-=======
-    <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/fastclick.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
-        
-    <script src='cordova.js'></script>
-        
-    <style>
-        .panel{
-            /*
-            font-family: cursive
-            */
-        }
-    
-    </style>
->>>>>>> Stashed changes
-
 
 </head>
 
@@ -262,6 +244,8 @@
 		var functions=  []; // Array of functiongraphs. Used to reference them later
 		var tempID= 0; // Used to identify each newly created functiongraph
 		var board=  null; // Make the board global
+		var tempGraph;
+		
 		(function() {
 			var	ev = new $.Event('style'),
 				orig = $.fn.css;
@@ -323,7 +307,6 @@
 					board.resizeContainer($(window).width(), $("#graph").height());
 			});
 			
-			
 			// try using jsxGraph to convert user input to javascript math
 			$("#userInput").keyup(function(args)	{
 				try	{
@@ -346,56 +329,60 @@
 				graphUserText(userString);
 				$('#userInput').val('');
 			});
-			
-			function graphUserText(userText){
-				//get what the user typed using jsxGraph
-				//var userFunction = board.jc.snippet(userText, true, 'x', true);
-				
-				//change user string to javascript math inside a function (javascript magic!)
-				var userTextjs = mathjs(userText.toLowerCase(), 'x');
-				var userFunction = function(x){ with(Math) return eval(userTextjs);};
-				
-				//graph it
-				var userGraph = getFunctionGraph(userFunction);
-				var funcID= tempID++;
-				
-				//app framework methods .afui  docs: https://github.com/01org/appframework/tree/master/docs/af.ui
-				$.afui.loadContent("#graph");
-				$.afui.clearHistory();
-				
-				functions[funcID]=  userGraph;
-				
-				// Funcview!
-				// TODO: Figure out how to do glyph icons without bootstrap.
-                // We can include fontawesome maybe
-                
-				$("#functionList").append(
-					"<div id='func_"+funcID+"' class='funcview'><span id='eq_"+funcID+"'></span><span style='color:"+getDefaultColor()+";'>"+userText+"</span>"+
-					" <input type='button' onclick='colorFunction("+funcID+");' value='Color'>"+
-					" <input type='button' onclick='editFunction("+funcID+");' value='Edit'>"+
-					" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete'> </div>"
-				);
-                // userText needs to be LaTex
-                katex.render(userText, eval("eq_"+funcID));
-			}
-			
-			function graphUserTextLiveUpdate(userText){
-				//get what the user typed using jsxGraph
-				//var userFunction = board.jc.snippet(userText, true, 'x', true);
-				
-				//change user string to javascript math inside a function (javascript magic!)
-				board.removeObject(tempGraph);
-				delete tempGraph; // Not sure if this part is necessary. Deletes it from memory
-				
-				var userTextjs = mathjs(userText.toLowerCase(), 'x');
-				var userFunction = function(x){ with(Math) return eval(userTextjs);};
-				var userGraph = getFunctionGraph(userFunction);
-				
-				tempGraph=  userGraph;
-			}
 		});
 		
-		var tempGraph;;
+		function graphUserText(userText){
+			//get what the user typed using jsxGraph
+			//var userFunction = board.jc.snippet(userText, true, 'x', true);
+			
+			//change user string to javascript math inside a function (javascript magic!)
+			var userTextjs = mathjs(userText.toLowerCase(), 'x');
+			var userFunction = function(x){ with(Math) return eval(userTextjs);};
+			
+			//graph it
+			var userGraph = getFunctionGraph(userFunction);
+			var funcID= tempID++;
+			
+			//app framework methods .afui  docs: https://github.com/01org/appframework/tree/master/docs/af.ui
+			$.afui.loadContent("#graph");
+			$.afui.clearHistory();
+			
+			functions[funcID]=  userGraph;
+			functions[funcID].asciiText=	userText;
+			// Deletes the graph from the textbox.
+			board.removeObject(tempGraph);
+			delete tempGraph; // Not sure if this part is necessary. Deletes it from memory
+			
+			// Funcview!
+			// TODO: Figure out how to do glyph icons without bootstrap.
+			// We can include fontawesome maybe
+			
+			$("#functionList").append(
+				"<div id='func_"+funcID+"' class='funcview'><span id='eq_"+funcID+"' style='color:"+getDefaultColor()+";'></span>"+
+				//"<span style='color:"+getDefaultColor()+";'>"+userText+"</span>"+
+				" <input type='button' onclick='colorFunction("+funcID+");' value='Color'>"+
+				" <input type='button' onclick='editFunction("+funcID+");' value='Edit'>"+
+				" <input type='button' onclick='calculusFunction("+funcID+");' value='Derivitive'>"+
+				" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete'> </div>"
+			);
+			// userText needs to be LaTex
+			katex.render(userText, eval("eq_"+funcID));
+		}
+		
+		function graphUserTextLiveUpdate(userText){
+			//get what the user typed using jsxGraph
+			//var userFunction = board.jc.snippet(userText, true, 'x', true);
+			
+			//change user string to javascript math inside a function (javascript magic!)
+			board.removeObject(tempGraph);
+			delete tempGraph; // Not sure if this part is necessary. Deletes it from memory
+			
+			var userTextjs = mathjs(userText.toLowerCase(), 'x');
+			var userFunction = function(x){ with(Math) return eval(userTextjs);};
+			var userGraph = getFunctionGraph(userFunction);
+			
+			tempGraph=  userGraph;
+		}
 		
 		// Universal function for creating a function graph.
 		function getFunctionGraph(userFunction) {
@@ -405,6 +392,7 @@
 			});
 		}
 		
+		// Gets the default color
 		function getDefaultColor()	{
 			return "#4169e1";
 		}
@@ -503,7 +491,7 @@
 				// Ex: value== cosx+sinx
 				// We can change this, but I thought edit as in change the current one
 				// TODO: Figure out how to focus onto the textbox
-				message: "<input type='text' value='"+$("#func_"+funcID+" span").html()+"' />",
+				message: "<input type='text' value='"+functions[funcID].asciiText+"' />",
 				doneCallback:    function()  {
 					// Variables
 					var  userText=   $("#editModal div input").val();
@@ -514,9 +502,18 @@
 					board.removeObject(functions[funcID]);
 					delete functions[funcID]; // Not sure if this part is necessary. Deletes it from memory
 					functions[funcID]=  userGraph; // This was the only thing I can find that would could edit the function
+					functions[funcID].asciiText=	userText;
 					$("#func_"+funcID+" span").html(userText);
 				}
 			});
+		}
+		
+		function calculusFunction(funcID)	{
+			// Variables
+			var	a=	Algebrite.run("d("+functions[funcID].asciiText+")");
+			
+			console.log(a);
+			graphUserText(a);
 		}
 		
 		// Callback function for deleteing the functiongraph
