@@ -26,6 +26,10 @@
 	<script src="lib/jsxgraphcore.js"></script>
 	<!-- to converte user Text to javascript math -->
 	<script src="lib/mathjs.js"></script>
+    
+    <!-- Initial KaTex CDN (todo: local copy) --> 
+    <link rel="stylesheet" href="lib/katex/katex.min.css" >
+    <script src="lib/katex/katex.min.js"></script>
 		
 		
 	<style>
@@ -106,7 +110,9 @@
         
     <style>
         .panel{
+            /*
             font-family: cursive
+            */
         }
     
     </style>
@@ -361,12 +367,16 @@
 				
 				// Funcview!
 				// TODO: Figure out how to do glyph icons without bootstrap.
+                // We can include fontawesome maybe
+                
 				$("#functionList").append(
-					"<div id='func_"+funcID+"' class='funcview'><span style='color:"+getDefaultColor()+";'>"+userText+"</span>"+
+					"<div id='func_"+funcID+"' class='funcview'><span id='eq_"+funcID+"'></span><span style='color:"+getDefaultColor()+";'>"+userText+"</span>"+
 					" <input type='button' onclick='colorFunction("+funcID+");' value='Color'>"+
 					" <input type='button' onclick='editFunction("+funcID+");' value='Edit'>"+
 					" <input type='button' onclick='deleteFunction("+funcID+");' value='Delete'> </div>"
 				);
+                // userText needs to be LaTex
+                katex.render(userText, eval("eq_"+funcID));
 			}
 			
 			function graphUserTextLiveUpdate(userText){
@@ -456,6 +466,8 @@
 					
 					signed,
 						Paul.
+                        
+                        "...not a designer"  ... YET!
 			*/
 			
 			// Red: Crimson or #dc143c
